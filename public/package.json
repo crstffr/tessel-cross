@@ -1,0 +1,30 @@
+{
+  "name": "omen-cross-ui",
+  "version": "0.1.0",
+  "main": "index.js",
+  "dependencies": {
+    "jspm": "0.17.0-beta.41"
+  },
+  "jspm": {
+    "name": "cross",
+    "main": "app/app.js",
+    "dependencies": {
+      "bulma": "npm:bulma@0.4.0",
+      "css": "github:systemjs/plugin-css@0.1.33",
+      "dragula": "npm:dragula@^3.7.2",
+      "normalize.css": "npm:normalize.css@6.0.0",
+      "text": "github:systemjs/plugin-text@0.0.9",
+      "webcomponents-lite": "npm:webcomponents-lite@0.6.0"
+    },
+    "devDependencies": {
+      "plugin-babel": "npm:systemjs-plugin-babel@0.0.21"
+    },
+    "peerDependencies": {
+      "assert": "npm:jspm-nodelibs-assert@^0.2.0",
+      "child_process": "npm:jspm-nodelibs-child_process@^0.2.0",
+      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
+      "path": "npm:jspm-nodelibs-path@^0.2.0",
+      "process": "npm:jspm-nodelibs-process@^0.2.0"
+    }
+  }
+}

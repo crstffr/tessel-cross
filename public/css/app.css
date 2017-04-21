@@ -1,0 +1,18 @@
+html, body {
+    background: #eee;
+    font-family: sans-serif;
+}
+
+body .notification {
+    padding: 1.5rem;
+}
+
+body .block-buttons .button {
+    display: block;
+    margin-bottom: .75rem;
+}
+
+body .inline-buttons .button {
+    margin-right: .75rem;
+    margin-bottom: .75rem;
+}

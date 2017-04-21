@@ -1,0 +1,98 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="./css/app.css">
+    <style>.cloak { visibility: hidden}</style>
+    <script src="./system/webcomponents-lite.js"></script>
+    <script src="./system/system.js"></script>
+    <script src="./jspm.config.js"></script>
+    <script>
+        System.import('app/style.js').then(function(){
+            document.body.classList.remove('cloak');
+        });
+        System.import('app/app.js');
+    </script>
+</head>
+<body class="cloak">
+
+    <nav class="nav">
+        <div class="nav-left">
+            <span class="nav-item">
+                <h3 class="title">ΩMEN Cross</h3>
+            </span>
+        </div>
+    </nav>
+
+    <section class="section">
+
+        <div class="columns">
+
+            <div class="column is-2">
+                <h3 class="title">Instruments</h3>
+                <div class="notification content instruments block-buttons">
+                    <a class="button instrument">MicroBrute</a>
+                    <a class="button instrument">DrumBrute</a>
+                    <a class="button instrument">Roland A-01</a>
+                    <a class="button instrument">Akai TomCat</a>
+                    <a class="button instrument">Keyboard</a>
+                </div>
+            </div>
+
+            <div class="column">
+
+                <h3 class="title">Effects</h3>
+                <div class="notification content effects inline-buttons">
+                    <a class="button effect">Flashback Delay</a>
+                    <a class="button effect">Hall of Fame Reverb</a>
+                    <a class="button effect">EHX POG2</a>
+                    <a class="button effect">Echolution2 Delay</a>
+                    <a class="button effect">Roland VT-3</a>
+                    <a class="button effect">Yellow Fall</a>
+                    <a class="button effect">Blues Drive</a>
+                    <a class="button effect">Jet Flanger</a>
+                    <a class="button effect">Pearl Phaser</a>
+                    <a class="button effect">Compressor</a>
+                    <a class="button effect">Bass EQ</a>
+                </div>
+
+                <h3 class="title">Patches</h3>
+                <div class="columns">
+                    <div class="column is-3">
+                        Patch 1
+                        <div class="notification content patch block-buttons">
+                            <a class="button output">Mixer Channel 1</a>
+                        </div>
+                    </div>
+                    <div class="column is-3">
+                        Patch 2
+                        <div class="notification content patch block-buttons">
+                            <a class="button output">Mixer Channel 2</a>
+                        </div>
+                    </div>
+                    <div class="column is-3">
+                        Patch 3
+                        <div class="notification content patch block-buttons">
+                            <a class="button output">Mixer Channel 3</a>
+                        </div>
+                    </div>
+                    <div class="column is-3">
+                        Patch 4
+                        <div class="notification content patch block-buttons">
+                            <a class="button output">Mixer Channel 4</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-2">
+                <h3 class="title">Outputs</h3>
+                <div class="notification content outputs block-buttons">
+                    <a class="button output">Mixer 5</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
