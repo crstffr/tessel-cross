@@ -55,7 +55,7 @@ var validate = true;	// validate data written to switch before UPDATE if data fa
 pinCE.high();		// setup CE pin      (enabled low)
 pinUPDATE.high();	// setup UPDATE pin  (enabled low)
 pinRESET.high();	// setup RESET pin   (enabled low)
-pinSER.low();	// set SerPar pin to pulldown	-- ser(NOT)/Par so ser low for serial coding
+pinSER.low();	// set SerPar pin to low	-- ser(NOT)/Par so ser low for serial coding
 
 function SPIComm() {		// only make one of these -- how to limit it?
 
@@ -87,12 +87,15 @@ var SetDefaultConfig = function() {
 }
 
 var SPIDataOut = function(dataIn) {
+    
+    
 	var PortArray = Buffer.from(dataIn); // copy of the array
 //        var rxOut;
 	if (reverse) {
 //	The order of Output Patch Ports for the switch is largest to smallest and the PortArray is small to large so reverse
 		PortArray.reverse();
 	}
+	PortArray = AdjustPortArray(PortArray);
 	console.log("data: ");			 // delete me
 	pinCE.low();			   // set CE so we can configure switch
 	spiCommChannel.transfer(PortArray, function (error, rx) {// add err handling	// tryout 'send' instead of transfer faster?
@@ -125,6 +128,8 @@ var SPIDataOut = function(dataIn) {
 }
 
 var SPIDataOutClean = function(dataIn) {
+    
+    dataIn = AdjustPortArray(dataIn);
 	// mostly same as SPIDataOut made for speed
 		// uses send(tx only no rx) instead of transfer so:
 			// no validation possible & no logging to console
@@ -142,6 +147,28 @@ var SPIDataOutClean = function(dataIn) {
 	//pinUPDATE.high();	// update finished time between update low and update high is not critical
 //	pinCE.high();		// serial data and update completed Switch is configured so disable CE now.
 }
+
+var AdjustPortArray = function(array) { // this is ugly... Fix It!
+ // convert '16' Hex port configurations to '10' Hex commands for transmitting to xpoint
+    var temp="";
+    
+    for (var item of array.entries()) {     // entries is a pair [index , value]
+        console.log(item[1]);
+        console.log(('00000'+item[1].toString(2)).slice(-5));
+        temp = temp +('00000'+item[1].toString(2)).slice(-5)       // convert to binary *=& pad to 5 positions
+    }
+    console.log("temp: " + temp);
+    var newArray = temp.match(/.{1,8}/g);
+    console.log("newArray: " + newArray);
+
+    var newBuff = new Buffer(10);
+    for (var items of newArray.entries()) {     // entries is a pair [index , value]
+        newBuff[items[0]]=parseInt(items[1],2);
+    }
+    console.log(newBuff);
+    return newBuff;
+}
+
 
 var OutputStandby = function(outHold) {	// disables outputs 'true'/1 ... enables outputs 'false'/0
 // must be set to false or 0 to configure the switch
