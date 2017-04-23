@@ -14,18 +14,17 @@ console.log('Server now running at http://' + ip + ':9100');
 
 http.createServer(function (req, res) {
 
+    var body = '';
     var www = __dirname + '/public/';
 
     if (req.method === 'GET') {
-
         if (req.url === '/') {
+            // Serve templated index.html with some device details
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(text(www + 'index.html', [id, ip, name, 'dev']));
         } else {
-
+            // Serve other static files from public folder
             let file = path.join(www, req.url);
-            console.log(req.url, file);
-
             if (fs.existsSync(file)) {
                 res.writeHead(200);
                 res.end(text(file));
@@ -34,6 +33,34 @@ http.createServer(function (req, res) {
                 res.end();
             }
         }
+
+    } else if (req.method === 'POST') {
+
+        if (req.url === '/chains') {
+
+            req.on('data', function (data) {
+                body += data;
+                if (body.length > 1e6) {
+                    req.connection.destroy(); // flood prevention
+                }
+            });
+
+            req.on('end', function () {
+                if (req.headers['content-type'] === 'application/json') {
+                    try { body = JSON.parse(body); }
+                    catch(e) {}
+                }
+                console.log(body);
+            });
+
+            res.writeHead(200);
+            res.end();
+
+        } else {
+            res.writeHead(404);
+            res.end();
+        }
+
     }
 
 }).listen(9100);

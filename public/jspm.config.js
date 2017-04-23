@@ -16,6 +16,8 @@ SystemJS.config({
         "npm:systemjs-plugin-babel@0.0.21/babel-helpers/inherits.js",
         "npm:systemjs-plugin-babel@0.0.21/babel-helpers/possibleConstructorReturn.js",
         "cross/class/input.js",
+        "cross/class/request.js",
+        "npm:systemjs-plugin-babel@0.0.21/babel-helpers/createClass.js",
         "npm:dragula@3.7.2/dist/dragula.js",
         "npm:dragula@3.7.2.json",
         "cross/style.js",
