@@ -1,0 +1,117 @@
+html, body {
+    background: white;
+    font-family: sans-serif;
+}
+
+body .notification {
+    padding: 1.5rem;
+}
+
+body .block-buttons .button {
+    display: block;
+    margin-bottom: .75rem;
+}
+
+body .inline-buttons .button {
+    margin-right: .75rem;
+    margin-bottom: .75rem;
+}
+
+.instrument.microbrute,
+.instrument.microbrute:hover {
+    background: dimgray;
+    color: white;
+}
+
+.instrument.drumbrute,
+.instrument.drumbrute:hover {
+    background: saddlebrown;
+    color: white;
+}
+
+.instrument.a01,
+.instrument.a01:hover {
+    background: black;
+    color: silver;
+}
+
+.instrument.tomcat,
+.instrument.tomcat:hover {
+    background: darkorange;
+    color: black;
+}
+
+.instrument.keyboard,
+.instrument.keyboard:hover {
+    background: midnightblue;
+    color: white;
+}
+
+.instrument.mic,
+.instrument.mic:hover {
+    background: teal;
+    color: white;
+}
+
+
+/*
+.effect.flashback,
+.effect.flashback:hover {
+    background: dodgerblue;
+    color: white;
+}
+
+.effect.halloffame,
+.effect.halloffame:hover {
+    background: darkred;
+    color: white;
+}
+
+.effect.pog2,
+.effect.pog2:hover {
+    background: white;
+    color: red;
+}
+
+.effect.echolution,
+.effect.echolution:hover {
+    background: white;
+    color: dodgerblue;
+}
+
+.effect.vt3,
+.effect.vt3:hover {
+    background: greenyellow;
+    color: black;
+}
+
+.effect.yellowfall,
+.effect.yellowfall:hover {
+    background: yellow;
+    color: black;
+}
+
+.effect.shaker,
+.effect.shaker:hover {
+    background: orangered;
+    color: white;
+}
+
+.effect.corona,
+.effect.corona:hover {
+    background: darkolivegreen;
+    color: white;
+}
+
+.effect.compressor,
+.effect.compressor:hover {
+    background: deepskyblue;
+    color: white;
+}
+
+.effect.basseq,
+.effect.basseq:hover {
+    background: black;
+    color: white;
+}
+*/

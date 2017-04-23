@@ -1,17 +1,32 @@
 SystemJS.config({
   paths: {
     "npm:": "jspm_packages/npm/",
-    "github:": "jspm_packages/github/"
+    "github:": "jspm_packages/github/",
+    "cross/": "app/"
   },
   browserConfig: {
     "baseURL": "/",
-    "paths": {
-      "cross/": "app/"
-    }
-  },
-  nodeConfig: {
-    "paths": {
-      "cross/": ""
+    "bundles": {
+      "dist/app.min.js": [
+        "cross/app.js",
+        "cross/class/output.js",
+        "cross/class/connection.js",
+        "npm:systemjs-plugin-babel@0.0.21/babel-helpers/classCallCheck.js",
+        "npm:systemjs-plugin-babel@0.0.21.json",
+        "npm:systemjs-plugin-babel@0.0.21/babel-helpers/inherits.js",
+        "npm:systemjs-plugin-babel@0.0.21/babel-helpers/possibleConstructorReturn.js",
+        "cross/class/input.js",
+        "npm:dragula@3.7.2/dist/dragula.js",
+        "npm:dragula@3.7.2.json",
+        "cross/style.js",
+        "cross/style/app.css!github:systemjs/plugin-css@0.1.33/css.js",
+        "github:systemjs/plugin-css@0.1.33.json",
+        "npm:bulma@0.4.0/css/bulma.css!github:systemjs/plugin-css@0.1.33/css.js",
+        "npm:bulma@0.4.0.json",
+        "npm:dragula@3.7.2/dist/dragula.css!github:systemjs/plugin-css@0.1.33/css.js",
+        "npm:normalize.css@6.0.0/normalize.css!github:systemjs/plugin-css@0.1.33/css.js",
+        "npm:normalize.css@6.0.0.json"
+      ]
     }
   },
   devConfig: {

@@ -14,25 +14,27 @@ patchFunctions.PatchDelayed(10, 10, 1);
 patchFunctions.DoPatches();			// apply the changes to the switch
 
 var myPatches =  Buffer.from(patchFunctions.getPatches());
-var myPatches2 = Buffer.from(patchFunctions.PortArray);
-
 console.log("getPatches: " + myPatches[1].toString(16));
-console.log("PortArray: " + myPatches2[1].toString(16));
 
 patchFunctions.DisconnectNow(4);
 myPatches =  Buffer.from(patchFunctions.getPatches());
 console.log("getPatches disconnected #4: " + myPatches);
 
-patchFunctions.PortArray = myPatches;		// load in previously save patch list
-patchFunctions.DoPatches();					// apply the changes to the switch
+// patchFunctions.PortArray = myPatches;		// load in previously save patch list
+// patchFunctions.DoPatches();					// apply the changes to the switch
 
-patchFunctions.SetDefaultConfig();			// set to startup
+// patchFunctions.SetDefaultConfig();			// set to startup
+
+patchFunctions.SetPortArray(new Buffer.from([0x31,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]));
+patchFunctions.DoPatches();
+
 
 setInterval(function () {		// looping only for debug/OScope purposes	** remove for production
     //patchFunctions.ConfigDefaultPatches();
     //patchFunctions.SetDefaultConfig();
     //patchFunctions.DoPatches();
-}, 10);		// end of interval loop remove this for production
+}, 1000);		// end of interval loop remove this for production
+
 
 // console.log("disconnect: ");
 // Disconnect(4);

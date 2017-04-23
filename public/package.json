@@ -5,6 +5,9 @@
   "dependencies": {
     "jspm": "0.17.0-beta.41"
   },
+  "scripts": {
+    "build": "jspm bundle app/app.js dist/app.min.js --minify --inject; tree -h ./dist/"
+  },
   "jspm": {
     "name": "cross",
     "main": "app/app.js",

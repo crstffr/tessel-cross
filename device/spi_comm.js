@@ -55,7 +55,7 @@ var validate = true;	// validate data written to switch before UPDATE if data fa
 pinCE.high();		// setup CE pin      (enabled low)
 pinUPDATE.high();	// setup UPDATE pin  (enabled low)
 pinRESET.high();	// setup RESET pin   (enabled low)
-pinSER.pull("pulldown");	// set SerPar pin to pulldown	-- ser(NOT)/Par so ser low for serial coding
+pinSER.low();	// set SerPar pin to pulldown	-- ser(NOT)/Par so ser low for serial coding
 
 function SPIComm() {		// only make one of these -- how to limit it?
 

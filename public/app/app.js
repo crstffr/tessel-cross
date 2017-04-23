@@ -1,6 +1,6 @@
-import 'cross/style';
-import dragula from 'dragula/dist/dragula';
+import './style';
 
+import dragula from 'dragula/dist/dragula';
 import {Input} from 'cross/class/input';
 import {Output} from 'cross/class/output';
 
@@ -18,16 +18,21 @@ let $ = function() {
 let $instruments = $('.instruments')[0];
 let $outputs = $('.outputs')[0];
 let $effects = $('.effects')[0];
-let $patches = $('.patch');
+let $chains = $('.chain');
 
 // Setup instruments
 
-let group = $patches.slice()
+let group = $chains.slice()
                 .concat($effects)
                 .concat($outputs)
                 .concat($instruments);
 
 dragula(group, {
+    copy: function(el, target) {
+        return false;
+        //return (el.classList.contains('instrument') && target.classList.contains('instruments'));
+    },
+    removeOnSpill: false,
     accepts: function (el, target, source, sibling) {
 
         let eIsInst = el.classList.contains('instrument');
@@ -35,55 +40,43 @@ dragula(group, {
         let eIsFx = el.classList.contains('effect');
 
         let tIsInst = target.classList.contains('instruments');
-        let tIsPatch = target.classList.contains('patch');
+        let tIsChain = target.classList.contains('chain');
         let tIsOut = target.classList.contains('outputs');
         let tIsFx = target.classList.contains('effects');
 
         if (eIsInst) {
-
-            if (tIsInst) {
-                return true;
-            }
-
-            if (tIsPatch) {
+            if (tIsInst) { return true; }
+            if (tIsChain) {
                 return (target.querySelectorAll('.instrument').length === 0);
             }
-
             return false;
-
         } else if (eIsOut) {
-
-            if (tIsOut) {
-                return true;
-            }
-
-            if (tIsPatch) {
+            if (tIsOut) { return true; }
+            if (tIsChain) {
                 return (target.querySelectorAll('.output').length === 0);
             }
-
             return false;
-
         } else if (eIsFx) {
-
-            return (tIsFx || tIsPatch);
-
+            return (tIsFx || tIsChain);
         }
-
         return false;
-
     }
-}).on('drop', reorderPatch);
+}).on('drop', reorderChain);
 
 
-function reorderPatch(el, target, source, sibling) {
+function reorderChain(el, target, source, sibling) {
 
-    if (!target.classList.contains('patch')) { return true; }
+    if (!target.classList.contains('chain')) { return true; }
 
     let inst = target.querySelector('.instrument');
     let outp = target.querySelector('.output');
 
     if (inst) { target.prepend(inst); }
     if (outp) { target.append(outp); }
+
+    // Now send to Device
+
+
 
     return true;
 }

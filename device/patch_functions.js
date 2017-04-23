@@ -24,7 +24,7 @@ var tessel = require('tessel');
 var spiComm = require('./spi_comm.js');		// our SPI Communication module
 spiComm.SPIComm();
 
-const arraySize = 16;		// Array Size is the number of Output Patch Ports
+const arraySize = 10;		// Array Size is the number of Output Patch Ports
 
 // keep all current connections info
 var PortArray = new Buffer.allocUnsafe(arraySize);		// spi comm requires a Buffer array
@@ -40,6 +40,10 @@ var ConfigDefaultPatches = function() {
 
 var SetDefaultConfig = function() {		// use for power on default switch config
 	spiComm.SetDefaultConfig();
+}
+
+var SetPortArray = function(buffer) {
+	PortArray = buffer;
 }
 
 var OutputStandby = function(outHold) {	// a 'true' shuts off all outputs --- a 'false' turns outputs back on 
@@ -88,7 +92,7 @@ exports.PatchDelayed = PatchDelayed;
 exports.DisconnectNow = DisconnectNow;
 exports.DisconnectDelayed = DisconnectDelayed;
 exports.getPatches = GetPatches;	// current switch port configuration
-exports.PortArray = PortArray;		// current switch port configuration
+exports.SetPortArray = SetPortArray;
 //}
 /*
 			Input & Output Patch Port Assignment Chart
