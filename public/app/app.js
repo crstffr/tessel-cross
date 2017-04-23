@@ -2,14 +2,11 @@ import './style';
 
 import dragula from 'dragula/dist/dragula';
 import {Request} from 'cross/class/request';
-import {Input} from 'cross/class/input';
-import {Output} from 'cross/class/output';
 
-const INS = 16;
-const OUTS = 16;
-
-let inputs = (new Array(INS)).fill(true).map((v, i) => new Input(i));
-let outputs = (new Array(OUTS)).fill(true).map((v, i) => new Output(i));
+// Load config;
+new Request('/config').get().then((config) => {
+    console.log('saved config', config);
+});
 
 let $ = function() {
     let r = document.querySelectorAll.apply(document, arguments);

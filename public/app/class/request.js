@@ -11,6 +11,21 @@ export class Request {
         }).join('&');
     }
 
+    get() {
+        this.req.open('GET', this.url, true);
+        this.req.send();
+        return new Promise((res, rej) => {
+            this.req.onload = () => {
+                if (this.req.status >= 200 && this.req.status < 400) {
+                    res(JSON.parse(this.req.responseText));
+                } else {
+                    rej(this.req.status);
+                }
+            };
+            this.req.onerror = rej;
+        });
+    }
+
     post(data) {
         this.req.open('POST', this.url, true);
         this.req.setRequestHeader("Content-Type", "application/json");

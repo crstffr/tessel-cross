@@ -7,6 +7,7 @@ var text = require('./common/utils/text');
 var ip = require('./device/ip');
 var id = require('./device/id');
 var name = require('./device/name');
+var storage = require('./device/storage');
 
 tessel.close('B');
 
@@ -22,8 +23,13 @@ http.createServer(function (req, res) {
     if (req.method === 'GET') {
         if (req.url === '/') {
             // Serve templated index.html with some device details
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.writeHead(200, {'content-type': 'text/html'});
             res.end(text(www + 'index.html', [id, ip, name, 'dev']));
+        } else if (req.url === '/config') {
+            // Serve the user config contents
+            res.writeHead(200, {'content-type': 'application/json'});
+            let config = storage.load('config');
+            res.end(JSON.stringify(config));
         } else {
             // Serve other static files from public folder
             let file = path.join(www, req.url);
@@ -35,7 +41,6 @@ http.createServer(function (req, res) {
                 res.end();
             }
         }
-
     } else if (req.method === 'POST') {
 
         if (req.url === '/chains') {
@@ -52,7 +57,7 @@ http.createServer(function (req, res) {
                     try { body = JSON.parse(body); }
                     catch(e) {}
                 }
-                console.log(body);
+                storage.save('config', body);
             });
 
             res.writeHead(200);
