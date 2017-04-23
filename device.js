@@ -8,6 +8,8 @@ var ip = require('./device/ip');
 var id = require('./device/id');
 var name = require('./device/name');
 
+tessel.close('B');
+
 console.log('------------------------------------------');
 console.log(name + ': ' + id);
 console.log('Server now running at http://' + ip + ':9100');

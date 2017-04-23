@@ -24,7 +24,7 @@ var tessel = require('tessel');
 var spiComm = require('./spi_comm.js');		// our SPI Communication module
 spiComm.SPIComm();
 
-const arraySize = 10;		// Array Size is the number of Output Patch Ports
+const arraySize = 16;		// Array Size is the number of Output Patch Ports
 
 // keep all current connections info
 var PortArray = new Buffer.allocUnsafe(arraySize);		// spi comm requires a Buffer array
