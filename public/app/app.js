@@ -3,25 +3,51 @@ import './style';
 import dragula from 'dragula/dist/dragula';
 import {Request} from 'cross/class/request';
 
-// Load config;
-new Request('/config').get().then((config) => {
-    console.log('saved config', config);
-});
+setInterval(function() {
+    new Request('/ping').get().then(enableUI).catch(disableUI);
+}, 5000);
 
 let $ = function() {
     let r = document.querySelectorAll.apply(document, arguments);
     return Array.prototype.slice.call(r);
 };
 
+let $btn1 = $('.js-do-connections')[0];
+let $btn2 = $('.js-disconnect-all')[0];
+let $btn3 = $('.js-load-defaults')[0];
+let $btn4 = $('.js-save-defaults')[0];
+
+$btn1.onclick = function() {
+    new Request('/doconns').post({});
+};
+
+$btn2.onclick = function() {
+    new Request('/disconnect').post({});
+    resetChains();
+};
+
+$btn3.onclick = function() {
+    new Request('/loaddefaults').post({}).then(() => {
+        loadCurrent();
+    });
+};
+
+$btn4.onclick = function() {
+    new Request('/savedefaults').post(serialize());
+};
+
 let $instruments = $('.instruments')[0];
 let $outputs = $('.outputs')[0];
 let $effects = $('.effects')[0];
 let $chains = $('.chain');
+let $body = $('body')[0];
 
 let group = $chains.slice()
     .concat($effects)
     .concat($outputs)
     .concat($instruments);
+
+loadCurrent();
 
 dragula(group, {
     accepts: function (el, target, source, sibling) {
@@ -53,18 +79,78 @@ dragula(group, {
         }
         return false;
     }
-}).on('drop', reorderChain);
+}).on('drop', onDrop);
 
-function reorderChain(el, target, source, sibling) {
-    if (!target.classList.contains('chain')) { return true; }
+
+function onDrop(el, target) {
+    if (target.classList.contains('chain')) {
+        reorderChain(target);
+    }
+    sendToDevice(serialize());
+}
+
+function sendToDevice(chains) {
+    new Request('/chains').post(chains);
+}
+
+function reorderChain(target) {
     let inst = target.querySelector('.instrument');
     let outp = target.querySelector('.output');
     if (inst) { target.prepend(inst); }
     if (outp) { target.append(outp); }
+}
 
-    // Now send to Device
-    new Request('/chains').post(serialize());
-    return true;
+function loadCurrent() {
+    new Request('/current').get().then((data) => {
+        loadFromArray(data);
+    });
+}
+
+function loadFromArray(arr) {
+    resetChains();
+    arr.forEach((chain, i) => {
+        chain.forEach((patch) => {
+            let $chain = $chains[i];
+            let input = Number(patch[0]);
+            let output = Number(patch[1]);
+            if (input >= 0) {
+                input++;
+                let iEl = getElbyAttrVal('input', input);
+                if (iEl) {
+                    $chain.appendChild(iEl);
+                }
+            }
+            if (output >= 0) {
+                output++;
+                let oEl = getElbyAttrVal('output', output);
+                if (oEl) {
+                    $chain.appendChild(oEl);
+                }
+            }
+        });
+    });
+}
+
+function resetChains() {
+    $chains.forEach(($chain) => {
+        $chain.querySelectorAll('.cross-io').forEach((el) => {
+            if (el.classList.contains('output')) {
+                $outputs.appendChild(el);
+            }
+            if (el.classList.contains('effect')) {
+                $effects.appendChild(el)
+            }
+        });
+    });
+}
+
+function getElbyAttrVal(attr, val) {
+    let $elem;
+    $('.cross-io').forEach((el) => {
+        let v = el.hasAttribute(attr) ? Number(el.getAttribute(attr)) : false;
+        $elem = (v === val) ? el : $elem;
+    });
+    return $elem;
 }
 
 function serialize() {
@@ -77,10 +163,20 @@ function serialize() {
             let o = 'output';
             let input = el.hasAttribute(i) ? Number(el.getAttribute(i)) : false;
             let output = el.hasAttribute(o) ? Number(el.getAttribute(o)) : false;
+            input--;
+            output--;
             if (idx !== 0) { chain.push([prev.i, output]); }
             prev = {i: input, o: output};
         });
         chains.push(chain);
     });
     return chains;
+}
+
+function disableUI() {
+    $body.classList.add('disabled');
+}
+
+function enableUI() {
+    $body.classList.remove('disabled');
 }

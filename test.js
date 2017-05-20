@@ -25,9 +25,8 @@ console.log("getPatches disconnected #4: " + myPatches);
 
 // patchFunctions.SetDefaultConfig();			// set to startup
 
-patchFunctions.SetPortArray(new Buffer.from([0x31,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]));
-patchFunctions.DoPatches();
-
+//patchFunctions.SetPortArray(new Buffer.from([0x31,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00]));
+//patchFunctions.DoPatches();
 
 setInterval(function () {		// looping only for debug/OScope purposes	** remove for production
     //patchFunctions.ConfigDefaultPatches();

@@ -96,7 +96,7 @@ var SPIDataOut = function(dataIn) {
 		PortArray.reverse();
 	}
 	PortArray = AdjustPortArray(PortArray);
-	console.log("data: ");			 // delete me
+	// console.log("data: ");			 // delete me
 	pinCE.low();			   // set CE so we can configure switch
 	spiCommChannel.transfer(PortArray, function (error, rx) {// add err handling	// tryout 'send' instead of transfer faster?
 /*
@@ -109,20 +109,20 @@ var SPIDataOut = function(dataIn) {
 		if (rx.equals(PortArray)) {	// only update if validate && rx == tx
 			pinUPDATE.low();	// serial data writes are complete set UPDATE to latche into switch
 			pinUPDATE.high();	// update finished time between update low and update high is not critical
-                        console.log('Validate Confirmed: ');
+			// console.log('Validate Confirmed: ');
 		}
 	} 
 	else {		// run the update if validate is false
 		pinUPDATE.low();	// serial data writes are complete set UPDATE to latche into switch
 		pinUPDATE.high();	// update finished time between update low and update high is not critical
-                console.log('here no Validate: ');
+		// console.log('here no Validate: ');
 	}
 	
 	pinCE.high();		// serial data and update completed Switch is configured so disable CE now.
 	
 	if (checkWrite) {	// checkWrite will fail unless testing with the tx and rx connected
-		console.log('returned: ', rx);
-		console.log('confirm: ', rx.equals(PortArray));	// compare sent to received
+		// console.log('returned: ', rx);
+		// console.log('confirm: ', rx.equals(PortArray));	// compare sent to received
 	}
     });
 }
@@ -153,19 +153,19 @@ var AdjustPortArray = function(array) { // this is ugly... Fix It!
     var temp="";
     
     for (var item of array.entries()) {     // entries is a pair [index , value]
-        console.log(item[1]);
-        console.log(('00000'+item[1].toString(2)).slice(-5));
-        temp = temp +('00000'+item[1].toString(2)).slice(-5)       // convert to binary *=& pad to 5 positions
+        // console.log(item[1]);
+        // console.log(('00000'+item[1].toString(2)).slice(-5));
+        temp = temp +('00000'+item[1].toString(2)).slice(-5);       // convert to binary *=& pad to 5 positions
     }
-    console.log("temp: " + temp);
+    // console.log("temp: " + temp);
     var newArray = temp.match(/.{1,8}/g);
-    console.log("newArray: " + newArray);
+    // console.log("newArray: " + newArray);
 
     var newBuff = new Buffer(10);
     for (var items of newArray.entries()) {     // entries is a pair [index , value]
         newBuff[items[0]]=parseInt(items[1],2);
     }
-    console.log(newBuff);
+    // console.log(newBuff);
     return newBuff;
 }
 
@@ -182,6 +182,5 @@ module.exports = {
     SPIDataOut:         SPIDataOut,
     SPIDataOutClean:    SPIDataOutClean,
     OutputStandby:      OutputStandby
-    
 };
 

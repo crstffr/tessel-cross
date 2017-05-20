@@ -2,6 +2,9 @@
   "name": "omen-cross-fw",
   "version": "0.1.0",
   "main": "index.js",
+  "scripts": {
+    "build": "cd public; npm run build; cd -"
+  },
   "dependencies": {
     "ip": "1.1.2",
     "user-settings": "0.1.5"

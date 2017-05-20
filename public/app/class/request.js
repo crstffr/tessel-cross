@@ -14,15 +14,19 @@ export class Request {
     get() {
         this.req.open('GET', this.url, true);
         this.req.send();
-        return new Promise((res, rej) => {
+        return new Promise((resolve, reject) => {
             this.req.onload = () => {
                 if (this.req.status >= 200 && this.req.status < 400) {
-                    res(JSON.parse(this.req.responseText));
+                    let contents = this.req.responseText;
+                    try {
+                        contents = JSON.parse(this.req.responseText);
+                    } catch(e) {}
+                    resolve(contents);
                 } else {
-                    rej(this.req.status);
+                    reject(this.req.status);
                 }
             };
-            this.req.onerror = rej;
+            this.req.onerror = reject;
         });
     }
 
@@ -31,15 +35,15 @@ export class Request {
         this.req.setRequestHeader("Content-Type", "application/json");
         this.req.send(JSON.stringify(data));
 
-        return new Promise((res, rej) => {
+        return new Promise((resolve, reject) => {
             this.req.onload = () => {
                 if (this.req.status >= 200 && this.req.status < 400) {
-                    res(this.req.responseText);
+                    resolve(this.req.responseText);
                 } else {
-                    rej(this.req.status);
+                    reject(this.req.status);
                 }
             };
-            this.req.onerror = rej;
+            this.req.onerror = reject;
         });
     }
 

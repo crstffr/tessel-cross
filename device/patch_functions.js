@@ -20,7 +20,6 @@
 */
 
 // Import the interface to Tessel hardware
-var tessel = require('tessel');
 var spiComm = require('./spi_comm.js');		// our SPI Communication module
 spiComm.SPIComm();
 
@@ -53,8 +52,8 @@ var OutputStandby = function(outHold) {	// a 'true' shuts off all outputs --- a 
 var PatchDelayed = function(outputPort, inputPort, connect) {		// update the PortArray and apply later
 //		configure Port connection and set connected
 //		to make the patch connect must be '1' 
-	inputPort = inputPort | (connect * 0x10 );					// if connect  == 1 then OR to inputPort  
-	console.log(outputPort, " : ", inputPort.toString(16));		// delete me
+	inputPort = inputPort | (connect * 0x10 );					// if connect  == 1 then OR to inputPort
+    // console.log('> Parsed i:', inputPort, '(', inputPort.toString(16), ')', '->', 'o:', outputPort);
 	PortArray[outputPort] = inputPort;
 }
 
@@ -65,7 +64,7 @@ var PatchNow = function(outputPort, inputPort, connect) {
 
 var DisconnectDelayed = function(outputPort) {			// update the PortArray and apply later
 	PortArray[outputPort] = PortArray[outputPort] &~ 0x10;	// strip the connect flag bit
-	console.log(PortArray[outputPort].toString(16));		// delete me
+	// console.log(PortArray[outputPort].toString(16));		// delete me
 }
 
 var DisconnectNow = function(outputPort) {
@@ -81,19 +80,18 @@ var GetPatches = function(){
 	return PortArray;
 }
 
-//module.exports = {
-exports.ConfigDefaultPatches = ConfigDefaultPatches;
-exports.SetDefaultConfig = SetDefaultConfig;
-exports.OutputStandby = OutputStandby;
-
-exports.DoPatches = DoPatches;
-exports.PatchNow = PatchNow;
-exports.PatchDelayed = PatchDelayed;
-exports.DisconnectNow = DisconnectNow;
-exports.DisconnectDelayed = DisconnectDelayed;
-exports.getPatches = GetPatches;	// current switch port configuration
-exports.SetPortArray = SetPortArray;
-//}
+module.exports = {
+    ConfigDefaultPatches: ConfigDefaultPatches,
+    SetDefaultConfig: SetDefaultConfig,
+    OutputStandby: OutputStandby,
+    DoPatches: DoPatches,
+    PatchNow: PatchNow,
+    PatchDelayed: PatchDelayed,
+    DisconnectNow: DisconnectNow,
+    DisconnectDelayed: DisconnectDelayed,
+    getPatches: GetPatches,
+    SetPortArray: SetPortArray
+};
 /*
 			Input & Output Patch Port Assignment Chart
 			------------------------------------------
